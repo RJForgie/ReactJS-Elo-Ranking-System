@@ -3,16 +3,18 @@ import * as firebase from 'firebase';
 import devConfig from './devConfig';
 import prodConfig from './prodConfig';
 
-  const config = process.env.NODE_ENV === 'production'
+const config = process.env.NODE_ENV === 'production'
   ? prodConfig
   : devConfig;
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(config);
-  }
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
-  const auth = firebase.auth();
+const db = firebase.database();
+const auth = firebase.auth();
 
 export {
+  db,
   auth,
 };
