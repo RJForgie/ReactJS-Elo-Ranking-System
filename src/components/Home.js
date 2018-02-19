@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Table, Label } from 'semantic-ui-react'
 
 import withAuthorization from './withAuthorization';
 import { db } from '../firebase';
@@ -37,9 +38,24 @@ const UserList = ({ users }) =>
     <h2>List of Usernames of Users</h2>
     <p>(Saved on Sign Up in Firebase Database)</p>
 
-    {Object.keys(users).map(key =>
-      <div key={key}>{users[key].username}</div>
-    )}
+    <Table celled>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Username</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      {Object.keys(users).map(key =>
+        <Table.Row>
+        <Table.Cell key={key}>{users[key].username}</Table.Cell>
+        </Table.Row>
+      )}
+    </Table.Body>
+    </Table>
+  
+
+
   </div>
 
 const authCondition = (authUser) => !!authUser;
