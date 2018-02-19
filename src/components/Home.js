@@ -42,6 +42,7 @@ const UserList = ({ users }) =>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>Username</Table.HeaderCell>
+        <Table.HeaderCell>Rating</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
@@ -49,6 +50,7 @@ const UserList = ({ users }) =>
       {Object.keys(users).map(key =>
         <Table.Row>
         <Table.Cell key={key}>{users[key].username}</Table.Cell>
+        <Table.Cell key={key}>{users[key].rating}</Table.Cell>
         </Table.Row>
       )}
     </Table.Body>
