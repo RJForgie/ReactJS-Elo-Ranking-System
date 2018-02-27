@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Label } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 import withAuthorization from './withAuthorization';
 import { db } from '../firebase';

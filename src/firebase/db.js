@@ -9,5 +9,14 @@ export const doCreateUser = (id, username, email, rating) =>
     rating,
   });
 
+export const doCreateGame = (id, date, result) =>
+  db.ref(`games/${id}`).set({
+    date,
+    result,
+  });
+
 export const onceGetUsers = () =>
   db.ref('users').once('value');
+  
+export const onceGetGames = () =>
+  db.ref('games').once('value');
