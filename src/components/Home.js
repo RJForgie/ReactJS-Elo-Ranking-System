@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { Table } from 'semantic-ui-react'
 
 import withAuthorization from './withAuthorization';
@@ -14,19 +16,21 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    const { onSetUsers } = this.props;
+
     db.onceGetUsers().then(snapshot =>
-      this.setState(() => ({ users: snapshot.val() }))
+      onSetUsers(snapshot.val())
     );
   }
 
   render() {
-    const { users } = this.state;
+    const { users } = this.props;
 
     return (
       <div>
         <h1>Home</h1>
         <p>The Home Page is accessible by every signed in user.</p>
-
+        {console.log(users)}
         { !!users && <UserList users={users} /> }
       </div>
     );
@@ -48,18 +52,26 @@ const UserList = ({ users }) =>
 
     <Table.Body>
       {Object.keys(users).map(key =>
-        <Table.Row>
-        <Table.Cell key={key}>{users[key].username}</Table.Cell>
-        <Table.Cell key={key}>{users[key].rating}</Table.Cell>
+        <Table.Row key={key}>
+        <Table.Cell>{users[key].username}</Table.Cell>
+        <Table.Cell>{users[key].rating}</Table.Cell>
         </Table.Row>
       )}
     </Table.Body>
     </Table>
-  
-
-
   </div>
+
+const mapStateToProps = (state) => ({
+  users: state.userState.users,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetUsers: (users) => dispatch({ type: 'USERS_SET', users }),
+});
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(HomePage);
+export default compose(
+  withAuthorization(authCondition),
+  connect(mapStateToProps, mapDispatchToProps)
+)(HomePage);

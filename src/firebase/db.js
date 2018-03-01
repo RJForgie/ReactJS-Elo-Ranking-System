@@ -9,10 +9,10 @@ export const doCreateUser = (id, username, email, rating) =>
     rating,
   });
 
-export const doCreateGame = (id, date, result) =>
-  db.ref(`games/${id}`).set({
-    date,
-    result,
+export const doCreateGame = (date, result) =>
+  db.ref('games/').push().set({
+    gameDate: date,
+    gameResult: result,
   });
 
 export const onceGetUsers = () =>

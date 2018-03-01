@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 
 import withAuthorization from './withAuthorization';
 import { db } from '../firebase';
@@ -15,18 +17,21 @@ class Games extends Component {
   }
 
   componentDidMount() {
+    const { onSetGames } = this.props;
+
     db.onceGetGames().then(snapshot =>
-      this.setState(() => ({ games: snapshot.val() }))
+      onSetGames(snapshot.val())
     );
   }
 
   render() {
-    const { games } = this.state;
+    const { games } = this.props;
 
     return (
       <div>
         <h1>Games</h1>
-        {/* <AddGameForm /> */}
+        <AddGameForm />
+        {console.log(games)}
         { !!games && <GameList games={games} /> }
       </div>
     );
@@ -34,6 +39,7 @@ class Games extends Component {
 }
 
 const GameList = ({ games }) =>
+
   <div>
     <h2>List of Games</h2>
 
@@ -47,9 +53,9 @@ const GameList = ({ games }) =>
 
     <Table.Body>
       {Object.keys(games).map(key =>
-        <Table.Row>
-        <Table.Cell key={key}>{games[key].date}</Table.Cell>
-        <Table.Cell key={key}>{games[key].result}</Table.Cell>
+        <Table.Row key={key}>
+        <Table.Cell>{games[key].gameDate}</Table.Cell>
+        <Table.Cell>{games[key].gameResult}</Table.Cell>
         </Table.Row>
       )}
     </Table.Body>
@@ -57,6 +63,17 @@ const GameList = ({ games }) =>
   
   </div>
 
+const mapStateToProps = (state) => ({
+  games: state.gameState.games,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetGames: (games) => dispatch({ type: 'GAMES_SET', games }),
+});
+
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(Games);
+export default compose(
+  withAuthorization(authCondition),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Games);
