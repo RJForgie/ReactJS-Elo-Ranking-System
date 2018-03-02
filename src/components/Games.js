@@ -46,16 +46,18 @@ const GameList = ({ games }) =>
     <Table celled>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>Date</Table.HeaderCell>
+        <Table.HeaderCell>Rando</Table.HeaderCell>
         <Table.HeaderCell>Result</Table.HeaderCell>
+        <Table.HeaderCell>Date</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
     <Table.Body>
       {Object.keys(games).map(key =>
         <Table.Row key={key}>
-        <Table.Cell>{games[key].gameDate}</Table.Cell>
-        <Table.Cell>{games[key].gameResult}</Table.Cell>
+        <Table.Cell>{games[key].rando}</Table.Cell>
+        <Table.Cell>{games[key].gameresult}</Table.Cell>
+        <Table.Cell>{games[key].date}</Table.Cell>
         </Table.Row>
       )}
     </Table.Body>

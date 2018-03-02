@@ -7,7 +7,7 @@ import { compose } from 'recompose';
 import { db } from '../firebase';
 
 const INITIAL_STATE = {
-    date: '',
+    rando: '',
     result: '',
     error: null,
   };
@@ -15,6 +15,12 @@ const INITIAL_STATE = {
 const byPropKey = (propertyName, value) => () => ({
     [propertyName]: value,
   });
+
+  var today = new Date();
+  var dd = ("0" + (today.getDate())).slice(-2);
+  var mm = ("0" + (today.getMonth() +　1)).slice(-2);
+  var yyyy = today.getFullYear();
+  today = yyyy + '-' + mm + '-' + dd ;
 
 class AddGameForm extends Component {
     constructor(props) {
@@ -25,26 +31,22 @@ class AddGameForm extends Component {
   
     onSubmit = (event) => {
       const {
-        date,
+        rando,
         result,
       } = this.state;
-  
-          
-            db.doCreateGame(date, result)
-            .then(() => {
-              this.setState(() => ({ ...INITIAL_STATE }));
-            })
-            .catch(error => {
-              this.setState(byPropKey('error', error));
-            });
-
-  
-  
+      
+      db.doCreateGame(rando, result, today)
+      .then(() => {
+        this.setState(() => ({ ...INITIAL_STATE }));
+      })
+      .catch(error => {
+          this.setState(byPropKey('error', error));
+      });
     }
   
     render() {
       const {
-        date,
+        rando,
         result,
         error,
       } = this.state;
@@ -52,10 +54,10 @@ class AddGameForm extends Component {
       return (
         <form onSubmit={this.onSubmit}>
           <Input
-            value={date}
-            onChange={event => this.setState(byPropKey('date', event.target.value))}
+            value={rando}
+            onChange={event => this.setState(byPropKey('rando', event.target.value))}
             type="text"
-            placeholder="Date"
+            placeholder="Rando"
           />
           <Input
             value={result}
@@ -73,6 +75,8 @@ class AddGameForm extends Component {
       );
     }
   }
+
+ 
 
 const mapStateToProps = (state) => ({
     authUser: state.sessionState.authUser,

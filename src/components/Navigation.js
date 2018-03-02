@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { Menu } from 'semantic-ui-react';
+
 import SignOutButton from './SignOut';
 import * as routes from '../constants/routes';
 
@@ -14,19 +16,19 @@ const Navigation = ({ authUser }) =>
   </div>
 
 const NavigationAuth = () =>
-  <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
-    <li><Link to={routes.HOME}>Home</Link></li>
-    <li><Link to={routes.ACCOUNT}>Account</Link></li>
-    <li><Link to={routes.GAMES}>Games</Link></li>
-    <li><SignOutButton /></li>
-  </ul>
+  <Menu>
+    <Menu.Item as={Link} to={routes.LANDING}>Landing</Menu.Item>
+    <Menu.Item as={Link} to={routes.HOME}>Home</Menu.Item>
+    <Menu.Item as={Link} to={routes.ACCOUNT}>Account</Menu.Item>
+    <Menu.Item as={Link} to={routes.GAMES}>Games</Menu.Item>
+    <Menu.Item><SignOutButton /></Menu.Item>
+  </Menu>
 
 const NavigationNonAuth = () =>
-  <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
-    <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
-  </ul>
+  <Menu>
+    <Menu.Item as={Link} to={routes.LANDING}>Landing</Menu.Item>
+    <Menu.Item as={Link} to={routes.SIGN_IN}>Sign In</Menu.Item>
+  </Menu>
 
 const mapStateToProps = (state) => ({
   authUser: state.sessionState.authUser,
