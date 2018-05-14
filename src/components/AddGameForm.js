@@ -7,6 +7,8 @@ import { compose } from 'recompose';
 import { db } from '../firebase';
 
 const INITIAL_STATE = {
+    winner: null,
+    loser: null,
     rando: '',
     result: '',
     error: null,
@@ -28,14 +30,24 @@ class AddGameForm extends Component {
   
       this.state = { ...INITIAL_STATE };
     }
+
+    componentDidMount() {
+      const { onSetUsers } = this.props;
+  
+      db.onceGetUsers().then(snapshot =>
+        onSetUsers(snapshot.val())
+      );
+    }
   
     onSubmit = (event) => {
       const {
+        winner,
+        loser,
         rando,
         result,
       } = this.state;
       
-      db.doCreateGame(rando, result, today)
+      db.doCreateGame(winner, loser, rando, result, today)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
       })
@@ -46,13 +58,34 @@ class AddGameForm extends Component {
   
     render() {
       const {
+        winner,
+        loser,
         rando,
         result,
         error,
       } = this.state;
+
+      const {users} = this.props;
   
       return (
+
         <form onSubmit={this.onSubmit}>
+          <select
+          onChange={event => this.setState(byPropKey('winner', event.target.value))}
+          >
+          {Object.keys(users).map(key =>
+            <option key={key} value={winner}>{users[key].username}</option>
+          )}
+          </select>
+
+          <select
+          onChange={event => this.setState(byPropKey('loser', event.target.value))}
+          >
+          {Object.keys(users).map(key =>
+            <option key={key} value={loser}>{users[key].username}</option>
+          )}
+          </select>
+         
           <Input
             value={rando}
             onChange={event => this.setState(byPropKey('rando', event.target.value))}
@@ -80,11 +113,16 @@ class AddGameForm extends Component {
 
 const mapStateToProps = (state) => ({
     authUser: state.sessionState.authUser,
+    users: state.userState.users,
+  });
+
+  const mapDispatchToProps = (dispatch) => ({
+    onSetUsers: (users) => dispatch({ type: 'USERS_SET', users }),
   });
   
   const authCondition = (authUser) => !!authUser;
   
   export default compose(
     withAuthorization(authCondition),
-    connect(mapStateToProps)
+    connect(mapStateToProps, mapDispatchToProps)
   )(AddGameForm);
