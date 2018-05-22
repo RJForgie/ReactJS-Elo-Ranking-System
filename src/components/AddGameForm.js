@@ -74,7 +74,7 @@ class AddGameForm extends Component {
           onChange={event => this.setState(byPropKey('winner', event.target.value))}
           >
           {Object.keys(users).map(key =>
-            <option key={key} value={winner}>{users[key].username}</option>
+            <option key={key} value={key}>{users[key].username}</option>
           )}
           </select>
 
@@ -82,7 +82,7 @@ class AddGameForm extends Component {
           onChange={event => this.setState(byPropKey('loser', event.target.value))}
           >
           {Object.keys(users).map(key =>
-            <option key={key} value={loser}>{users[key].username}</option>
+            <option key={key} value={key}>{users[key].username}</option>
           )}
           </select>
          
