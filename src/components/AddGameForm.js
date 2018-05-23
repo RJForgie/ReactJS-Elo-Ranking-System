@@ -9,8 +9,6 @@ import { db } from '../firebase';
 const INITIAL_STATE = {
     winner: null,
     loser: null,
-    rando: '',
-    result: '',
     error: null,
   };
 
@@ -43,11 +41,9 @@ class AddGameForm extends Component {
       const {
         winner,
         loser,
-        rando,
-        result,
       } = this.state;
       
-      db.doCreateGame(winner, loser, rando, result, today)
+      db.doCreateGame(winner, loser, today)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
       })
@@ -60,8 +56,6 @@ class AddGameForm extends Component {
       const {
         winner,
         loser,
-        rando,
-        result,
         error,
       } = this.state;
 
@@ -86,18 +80,6 @@ class AddGameForm extends Component {
           )}
           </select>
          
-          <Input
-            value={rando}
-            onChange={event => this.setState(byPropKey('rando', event.target.value))}
-            type="text"
-            placeholder="Rando"
-          />
-          <Input
-            value={result}
-            onChange={event => this.setState(byPropKey('result', event.target.value))}
-            type="text"
-            placeholder="Result"
-          />
           <Button type="submit">
             Save
           </Button>

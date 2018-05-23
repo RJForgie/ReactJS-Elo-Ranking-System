@@ -40,9 +40,6 @@ class Games extends Component {
       <div>
         <h1>Games</h1>
         <AddGameForm />
-        {/* {console.log(findUserByKey("ceSt9mwrNJTy6hkvYYg4FoX8rck2"))} */}
-        {/* {console.log(users.ceSt9mwrNJTy6hkvYYg4FoX8rck2)} */}
-        {/* {console.log(users["ceSt9mwrNJTy6hkvYYg4FoX8rck2"])} */}
         { !!games && <GameList games={games} users={users} /> }
       </div>
     );
@@ -67,7 +64,6 @@ const GameList = ({ games, users }) =>
     <Table.Body>
       {Object.keys(games).map(key =>
         <Table.Row key={key}>
-        {console.log(users)}
         <Table.Cell>{users[games[key].winnerID].username}</Table.Cell>
         <Table.Cell>{users[games[key].loserID].username}</Table.Cell>
         <Table.Cell>{games[key].date}</Table.Cell>
