@@ -40,8 +40,10 @@ class Games extends Component {
       <div>
         <h1>Games</h1>
         <AddGameForm />
+        {/* {console.log(findUserByKey("ceSt9mwrNJTy6hkvYYg4FoX8rck2"))} */}
         {/* {console.log(users.ceSt9mwrNJTy6hkvYYg4FoX8rck2)} */}
-        { !!games && <GameList games={games} /> }
+        {/* {console.log(users["ceSt9mwrNJTy6hkvYYg4FoX8rck2"])} */}
+        { !!games && <GameList games={games} users={users} /> }
       </div>
     );
   }
@@ -64,28 +66,16 @@ const GameList = ({ games, users }) =>
 
     <Table.Body>
       {Object.keys(games).map(key =>
-      //var user = findUserByKey(games[key].winnerID)
         <Table.Row key={key}>
-        <Table.Cell>{games[key].winnerID}</Table.Cell>
-        <Table.Cell>{games[key].loserID}</Table.Cell>
+        {console.log(users)}
+        <Table.Cell>{users[games[key].winnerID].username}</Table.Cell>
+        <Table.Cell>{users[games[key].loserID].username}</Table.Cell>
         <Table.Cell>{games[key].date}</Table.Cell>
         </Table.Row>
       )}
     </Table.Body>
     </Table>
-    {findUserByKey("ceSt9mwrNJTy6hkvYYg4FoX8rck2")}
-    
-  
   </div>
-
-function findUserByKey (key){
-  db.onceGetUser(key).then(snapshot =>
-  getUsername(snapshot.val()))
-};
-
-function getUsername(user){
-  console.log(user)
-}
 
 const mapStateToProps = (state) => ({
   games: state.gameState.games,
