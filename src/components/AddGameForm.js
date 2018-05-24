@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react'
 import withAuthorization from './withAuthorization';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import UpdatePlayerRating from '../vanillajs/ratingCalculator'
 
 import { db } from '../firebase';
 
@@ -62,6 +63,7 @@ class AddGameForm extends Component {
       const {users} = this.props;
   
       return (
+        
 
         <form onSubmit={this.onSubmit}>
           <select
@@ -79,11 +81,10 @@ class AddGameForm extends Component {
             <option key={key} value={key}>{users[key].username}</option>
           )}
           </select>
-         
           <Button type="submit">
             Save
           </Button>
-  
+          {console.log(users["nYHMZRhCvET72hVoGas5URjLxnk1"])}
           { error && <p>{error.message}</p> }
   
         </form>
