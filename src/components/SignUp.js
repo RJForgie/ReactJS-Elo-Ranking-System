@@ -7,6 +7,7 @@ import {
 
 import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
+import { DefaultSettings } from '../vanillajs/defaultSettings';
 
 const SignUpPage = ({ history }) =>
   <div>
@@ -49,7 +50,7 @@ class SignUpForm extends Component {
       .then(authUser => {
         
           // Create a user in your own accessible Firebase Database too
-          db.doCreateUser(authUser.uid, username, email, 2500)
+          db.doCreateUser(authUser.uid, username, email, DefaultSettings.defaultRating)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);

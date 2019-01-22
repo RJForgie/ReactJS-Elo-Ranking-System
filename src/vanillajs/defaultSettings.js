@@ -1,10 +1,8 @@
-class DefaultSettings {
-    constructor() {
-        this.proRatingBoundry = 2400;
-        this.starterBoundry = 30;
-        this.defaultRating = 2000;
-        this.defaultKFactor = 10;
-    };
+var DefaultSettings = {
+        proRatingBoundry: 2400,
+        starterBoundry: 30,
+        defaultRating: 2000,
+        defaultKFactor: 10
 }
 
-module.exports = DefaultSettings;
+module.exports =  DefaultSettings;
